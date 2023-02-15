@@ -1,0 +1,39 @@
+@model TrilhaNetMVCDesafio.Models.Tarefa
+@{
+    ViewData["Title"] = "Excluir tarefa";
+}
+
+<h1>@ViewData["Title"]</h1>
+<hr>
+<h4 class="alert alert-danger">ATENÇÃO! Esta operação não poderá ser desfeita, deseja continuar?</h4>
+<hr>
+<form asp-action="ExcluirDefinitivamente">
+    <fieldset disabled>
+        <div class="form-group">
+            @Html.LabelFor(x=>x.Titulo, "Título")
+            @Html.TextBoxFor(x=>x.Titulo,new{ @class="form-control"})
+        </div>
+        <br />
+        <div class="row">
+            <div class="form-group col-md-6">
+                @Html.LabelFor(x=>x.Data)
+                @Html.TextBoxFor(x=>x.Data,new{ @class="form-control"})
+            </div>
+            <div class="form-group col-md-6">
+                @Html.LabelFor(x=>x.Status)
+                @Html.DropDownListFor(x=>x.Status,Html.GetEnumSelectList<EnumStatusTarefa>(), new{
+                @class="form-control"})
+            </div>
+        </div>
+        <br />
+
+        <div class="form-group">
+            @Html.LabelFor(x=>x.Descricao, "Descrição")
+            @Html.TextAreaFor(x=>x.Descricao,new{ @class="form-control"})
+        </div>
+        <br />
+    </fieldset>
+    <button type="submit" class="btn btn-danger" asp-action="ExcluirDefinitivamente" asp-route-id="@Model.Id">Excluir
+        Definitivamente</button>
+    <a class="btn btn-secondary" asp-action="Index">Voltar</a>
+</form>

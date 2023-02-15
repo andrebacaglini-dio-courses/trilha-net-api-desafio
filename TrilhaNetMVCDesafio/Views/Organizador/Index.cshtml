@@ -1,0 +1,39 @@
+﻿@model IEnumerable<TrilhaNetMVCDesafio.Models.Tarefa>
+@{
+    ViewData["Title"] = "Organizador de Tarefas";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Seja bem vindo ao organizador de tarefas!</h1>
+    <p>Veja abaixo todas as tarefas existentes ou clique <a class="btn btn-outline-primary" asp-action="Criar">aqui</a>
+        para
+        criar uma nova
+        tarefa.</p>
+</div>
+<div class="text-center">
+    <table class="table">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">@Html.DisplayNameFor(x=>x.Id)</th>
+                <th scope="col">@Html.DisplayNameFor(x=>x.Titulo)</th>
+                <th scope="col">@Html.DisplayNameFor(x=>x.Data)</th>
+                <th scope="col">@Html.DisplayNameFor(x=>x.Status)</th>
+                <th scope="col" colspan="3">Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <th scope="row">@item.Id</th>
+                    <td>@item.Titulo</td>
+                    <td>@item.Data</td>
+                    <td>@item.Status</td>
+                    <td><a asp-action="Detalhar" asp-route-id="@item.Id">Detalhar</a></td>
+                    <td><a asp-action="Editar" asp-route-id="@item.Id">Editar</a></td>
+                    <td><a asp-action="Excluir" asp-route-id="@item.Id">Excluir</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

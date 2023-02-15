@@ -1,0 +1,35 @@
+@model TrilhaNetMVCDesafio.Models.Tarefa
+@{
+    ViewData["Title"] = "Criar nova tarefa";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<form asp-action="Criar">
+
+    <div class="form-group">
+            @Html.LabelFor(x=>x.Titulo, "Título")
+            @Html.TextBoxFor(x=>x.Titulo,new{ @class="form-control", @placeholder="Entre com o título"})
+    </div>
+    <br />
+    <div class="row">        
+        <div class="form-group col-md-6">
+            @Html.LabelFor(x=>x.Data)
+            @Html.TextBoxFor(x=>x.Data,new{ @class="form-control", @placeholder="DD/MM/AAAA", @type="datetime-local", @required="true"})
+        </div>
+        <div class="form-group col-md-6">
+            @Html.LabelFor(x=>x.Status)
+            @Html.DropDownListFor(x=>x.Status,Html.GetEnumSelectList<EnumStatusTarefa>(), new{ @class="form-control"})
+        </div>
+    </div>
+    <br />
+    
+    <div class="form-group">
+        @Html.LabelFor(x=>x.Descricao, "Descrição")
+        @Html.TextAreaFor(x=>x.Descricao,new{ @class="form-control", @placeholder="Escreva aqui a descrição da sua tarefa"})
+    </div>
+    <br />
+    <button type="submit" class="btn btn-primary">Criar</button>
+    <a class="btn btn-secondary" asp-action="Index">Voltar</a>
+    
+</form>
