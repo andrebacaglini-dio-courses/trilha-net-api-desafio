@@ -111,5 +111,78 @@ namespace TrilhaNetMVCDesafio.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        public IActionResult PesquisaAvancada(string sortOrder, string searchString, CurrentFilterType currentFilterType)
+        {
+            ViewData["TituloSortParm"] = String.IsNullOrEmpty(sortOrder) ? "titulo_desc" : string.Empty;
+            ViewData["DataSortParm"] = sortOrder == "Data" ? "data_desc" : "Data";
+            ViewData["CurrentFilter"] = searchString;
+
+            var tarefas = _context.Tarefas.AsQueryable();
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                switch (currentFilterType)
+                {
+                    case CurrentFilterType.Status:
+                        tarefas = FiltrarPorStatus(searchString, tarefas);
+                        break;
+                    case CurrentFilterType.Data:
+                        tarefas = FiltrarPorData(searchString, tarefas);
+                        break;                        
+                    default:
+                        tarefas = tarefas.Where(t => t.Titulo.Contains(searchString)); //FiltrarPorTitulo
+                        break;
+                }
+            }
+
+            tarefas = OrdernarTarefas(sortOrder, tarefas);
+
+            return View(tarefas.ToList());
+        }
+
+        private static IQueryable<Tarefa> FiltrarPorData(string searchString, IQueryable<Tarefa> tarefas)
+        {
+            if (DateTime.TryParse(searchString, out DateTime dateTimeParam))
+            {
+                tarefas = tarefas.Where(x => x.Data == dateTimeParam);
+            }
+
+            return tarefas;
+        }
+
+        private static IQueryable<Tarefa> FiltrarPorStatus(string searchString, IQueryable<Tarefa> tarefas)
+        {
+            if (searchString.ToLowerInvariant().Equals(EnumStatusTarefa.Finalizado.ToString().ToLower()))
+            {
+                tarefas = tarefas.Where(t => t.Status == EnumStatusTarefa.Finalizado);
+            }
+            else if (searchString.ToLowerInvariant().Equals(EnumStatusTarefa.Pendente.ToString().ToLower()))
+            {
+                tarefas = tarefas.Where(t => t.Status == EnumStatusTarefa.Pendente);
+            }
+
+            return tarefas;
+        }
+
+        private static IQueryable<Tarefa> OrdernarTarefas(string sortOrder, IQueryable<Tarefa> tarefas)
+        {
+            switch (sortOrder)
+            {
+                case "titulo_desc":
+                    tarefas = tarefas.OrderByDescending(t => t.Titulo);
+                    break;
+                case "Data":
+                    tarefas = tarefas.OrderBy(t => t.Data);
+                    break;
+                case "data_desc":
+                    tarefas = tarefas.OrderByDescending(t => t.Data);
+                    break;
+                default:
+                    tarefas = tarefas.OrderBy(s => s.Titulo);
+                    break;
+            }
+
+            return tarefas;
+        }
     }
 }
