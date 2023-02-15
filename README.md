@@ -1,6 +1,9 @@
 # DIO - Trilha .NET - API e Entity Framework
 www.dio.me
 
+## EDIT
+André: Tomei a liberdade de tentar fazer o mesmo desafio construindo um projeto ASP.NET MVC. Portanto separei os projetos em pastas.
+
 ## Desafio de projeto
 Para este desafio, você precisará usar seus conhecimentos adquiridos no módulo de API e Entity Framework, da trilha .NET da DIO.
 
